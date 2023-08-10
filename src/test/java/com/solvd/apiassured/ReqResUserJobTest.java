@@ -5,6 +5,9 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.lang.reflect.Type;
+import java.time.Clock;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 import static io.restassured.RestAssured.*;
 
@@ -18,7 +21,10 @@ public class ReqResUserJobTest {
                 Specification.responseSpecification(201));
 
         Type typeId = Integer.class;
-        String date = "2023-08-09";
+        String regex = "(.{10})$";
+        String regex1 = "(.{8})$";
+        String currentDateTime = LocalDateTime.now(ZoneOffset.UTC).toString().replaceAll(regex,"");
+
 
         UserJob userJob = new UserJob("olga", "tester");
         CreatedUserJob createdUser = given()
@@ -32,7 +38,7 @@ public class ReqResUserJobTest {
         Assert.assertNotNull(createdUser.getCreatedAt());
 
         Assert.assertEquals(createdUser.getId().getClass(), typeId, "Id is not Integer");
-        Assert.assertTrue(createdUser.getCreatedAt().contains(date), "Date doesn't match today");
+        Assert.assertEquals(createdUser.getCreatedAt().replaceAll(regex1,""), currentDateTime, "Date doesn't match today");
         createdID = Integer.toString(createdUser.getId());
     }
 
@@ -43,7 +49,10 @@ public class ReqResUserJobTest {
 
         String newName = "Marya";
         String newJob = "Doctor";
-        String date = "2023-08-09";
+
+        String regex = "(.{11})$";
+        String regex1 = "(.{8})$";
+        String currentDateTime = Clock.systemUTC().instant().toString().replaceAll(regex,"");
 
         UserJob userJob = new UserJob(newName, newJob);
         UpdatedUserJob updatedUser = given()
@@ -57,7 +66,7 @@ public class ReqResUserJobTest {
 
         Assert.assertEquals(updatedUser.getName(), newName, "Name isn't changed");
         Assert.assertEquals(updatedUser.getJob(), newJob, "Job isn't changed");
-        Assert.assertTrue(updatedUser.getUpdatedAt().contains(date), "Date doesn't match today");
+        Assert.assertEquals(updatedUser.getUpdatedAt().replaceAll(regex1, ""), currentDateTime, "Date doesn't match today");
     }
 
     @Test
