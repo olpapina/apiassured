@@ -1,5 +1,6 @@
-package com.solvd.apiassured;
+package com.solvd.apiassured.reqresapi;
 
+import com.solvd.apiassured.Specification;
 import com.solvd.apiassured.api.Registration;
 import com.solvd.apiassured.api.SuccessfulRegistration;
 import com.solvd.apiassured.api.UserData;

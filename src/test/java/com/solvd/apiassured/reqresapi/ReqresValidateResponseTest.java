@@ -1,5 +1,6 @@
-package com.solvd.apiassured;
+package com.solvd.apiassured.reqresapi;
 
+import com.solvd.apiassured.Specification;
 import com.solvd.apiassured.api.Registration;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
